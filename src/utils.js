@@ -33,6 +33,23 @@ function envelopeFromEnvelopes (envelopes) {
   return envelope;
 }
 
+function array_depth(array) {
+  var max_depth = 1;
+
+  for (var i = 0; i < array.length; i++) {
+    if (Array.isArray(array[i])) {
+      var depth = array_depth(array[i]) + 1;
+
+      if (depth > max_depth) {
+        max_depth = depth;
+      }
+    }
+  }
+
+  return max_depth;
+}
+
 exports.envelope = envelope;
 exports.envelopeWithinEnvelope = envelopeWithinEnvelope;
 exports.envelopeFromEnvelopes = envelopeFromEnvelopes;
+exports.array_depth = array_depth;

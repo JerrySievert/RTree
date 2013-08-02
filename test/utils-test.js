@@ -113,5 +113,13 @@ vows.describe('Utils').addBatch({
       assert.equal(envelope.x, 1);
       assert.equal(envelope.y, 1);
     }
+  },
+  'When given an array of arrays': {
+    topic: function () {
+      return [ [ [ 1 ] ], [ 2 ] ];
+    },
+    'the correct depth should be calculated': function (topic) {
+      assert.equal(utils.array_depth(topic), 3);
+    }
   }
 }).export(module);

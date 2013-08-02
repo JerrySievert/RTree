@@ -30,4 +30,8 @@ Tree.prototype.envelope = function () {
   return utils.envelopeFromEnvelopes(this._arrayOfEnvelopes(this));
 };
 
+Tree.prototype.depth = function () {
+  return utils.array_depth(this.children) + 1;
+};
+
 module.exports = exports = Tree;

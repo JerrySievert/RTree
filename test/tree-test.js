@@ -96,6 +96,9 @@ vows.describe('Tree').addBatch({
       assert.equal(envelope.y, 1);
       assert.equal(envelope.w, 39);
       assert.equal(envelope.h, 39);
+    },
+    'the correct depth is calculated': function (topic) {
+      assert.equal(topic.depth(), 2);
     }
   }
 }).export(module);
