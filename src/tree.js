@@ -34,4 +34,29 @@ Tree.prototype.depth = function () {
   return utils.array_depth(this.children) + 1;
 };
 
+Tree.prototype.add = function (leaf) {
+  // if geojson, create a real leaf
+  if (leaf instanceof Tree === false) {
+    leaf = new Tree(leaf, null, this.options);
+  }
+
+  // if we already have a leaf, it's time to start creating children
+  if (this.leaf) {
+    var child = new Tree(this.leaf, null, this.options);
+    this.leaf = null;
+
+    this.children = [ child, leaf ];
+  } else {
+    // otherwise add the child
+    if (this.children.length < this.maxWidth) {
+      // if we aren't at the maximum, add this child
+      this.children.push(leaf);
+    } else {
+      // otherwise we need to figure out where to put it
+    }
+  }
+};
+
+
+
 module.exports = exports = Tree;
