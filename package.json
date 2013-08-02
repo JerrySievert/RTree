@@ -1,0 +1,17 @@
+{
+  "name": "rtree",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vows --spec"
+  },
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "terraformer": "~0.2.0"
+  },
+  "devDependencies": {
+    "vows": "~0.7.0"
+  }
+}
