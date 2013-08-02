@@ -101,8 +101,8 @@ vows.describe('Tree').addBatch({
       assert.equal(topic.depth(), 2);
     },
     'the correct depth of each child is calculated': function (topic) {
-      assert.equal(topic.children[0].depth, 1);
-      assert.equal(topic.children[1].depth, 1);
+      assert.equal(topic.children[0].depth(), 1);
+      assert.equal(topic.children[1].depth(), 1);
     }
   }
 }).export(module);

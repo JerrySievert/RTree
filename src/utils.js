@@ -36,6 +36,10 @@ function envelopeFromEnvelopes (envelopes) {
 function array_depth(array) {
   var max_depth = 1;
 
+  if (!array) {
+    return 0;
+  }
+
   for (var i = 0; i < array.length; i++) {
     if (Array.isArray(array[i])) {
       var depth = array_depth(array[i]) + 1;
