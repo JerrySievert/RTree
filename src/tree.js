@@ -8,21 +8,26 @@ function Tree (leaf, children, optionalOptions) {
 }
 
 Tree.prototype._arrayOfEnvelopes = function (child) {
-  if (Array.isArray(child)) {
-    var array = [ ];
+  var array = [ ];
 
+  if (child.leaf) {
+    array.push(utils.envelope(child.leaf));
+  }
+
+  if (Array.isArray(child)) {
     for (var i = 0; i < child.length; i++) {
       array = array.concat(this._arrayOfEnvelopes(child[i]));
     }
-
-    return array;
   } else {
-    return utils.envelope(child.leaf);
+    if (child.children && child.children.length) {
+      array = array.concat(this._arrayOfEnvelopes(child.children));
+    }
   }
+  return array;
 };
 
 Tree.prototype.envelope = function () {
-  return utils.envelopeFromEnvelopes(this._arrayOfEnvelopes(this.children));
+  return utils.envelopeFromEnvelopes(this._arrayOfEnvelopes(this));
 };
 
 module.exports = exports = Tree;

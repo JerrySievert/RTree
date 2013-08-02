@@ -19,10 +19,14 @@ function envelopeFromEnvelopes (envelopes) {
     if (envelope.x === undefined) {
       envelope = envelopes[i];
     } else {
-      envelope.x = Math.min(envelope.x, envelopes[i].x);
-      envelope.y = Math.min(envelope.y, envelopes[i].y);
-      envelope.w = Math.max(envelope.x + envelope.w, envelopes[i].y + envelopes[i].w) - envelope.x;
-      envelope.h = Math.max(envelope.y + envelope.h, envelopes[i].y + envelopes[i].h) - envelope.y;
+      var x = Math.min(envelope.x, envelopes[i].x),
+          y = Math.min(envelope.y, envelopes[i].y);
+
+      envelope.w = Math.max(envelope.x + envelope.w, envelopes[i].y + envelopes[i].w) - x;
+      envelope.h = Math.max(envelope.y + envelope.h, envelopes[i].y + envelopes[i].h) - y;
+
+      envelope.x = x;
+      envelope.y = y;
     }
   }
 
