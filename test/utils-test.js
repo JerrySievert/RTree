@@ -95,5 +95,31 @@ vows.describe('Utils').addBatch({
       assert.equal(calculated.x, 1);
       assert.equal(calculated.y, 1);
     }
+  },
+  'When an array of envelopes is presented': {
+    topic: function () {
+      var envelopes = [
+        { x: 20, y: 20, w: 20, h: 20 },
+        { x: 1, y: 1, w: 4, h: 4 },
+        { x: 10, y: 10, w: 5, h: 5 }
+      ];
+
+      return envelopes;
+    },
+    'it should correctly calculate the expanded envelope': function (topic) {
+      var envelope = utils.envelopeFromEnvelopes(topic);
+      assert.equal(envelope.w, 39);
+      assert.equal(envelope.h, 39);
+      assert.equal(envelope.x, 1);
+      assert.equal(envelope.y, 1);
+    }
+  },
+  'When given an array of arrays': {
+    topic: function () {
+      return [ [ [ 1 ] ], [ 2 ] ];
+    },
+    'the correct depth should be calculated': function (topic) {
+      assert.equal(utils.array_depth(topic), 3);
+    }
   }
 }).export(module);
