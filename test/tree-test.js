@@ -1,0 +1,47 @@
+var vows   = require('vows'),
+    assert = require('assert'),
+    Tree   = require('../src/Tree');
+
+vows.describe('Tree').addBatch({
+  'When a Tree is created': {
+    topic: function () {
+      var child1 = new Tree({
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [ 1, 1 ],
+            [ 1, 5 ],
+            [ 5, 5 ],
+            [ 5, 1 ],
+            [ 1, 1 ]
+          ]
+        ]
+      });
+
+      var child2 = new Tree({
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [ 10, 10 ],
+            [ 10, 15 ],
+            [ 15, 15 ],
+            [ 15, 10 ],
+            [ 10, 10 ]
+          ]
+        ]
+      });
+
+      var tree = new Tree(null, [ child1, child2 ]);
+
+      return tree;
+    },
+    'the correct envelope is calculated': function (topic) {
+      var envelope = topic.envelope();
+
+      assert.equal(envelope.x, 1);
+      assert.equal(envelope.y, 1);
+      assert.equal(envelope.w, 14);
+      assert.equal(envelope.h, 14);
+    }
+  }
+}).export(module);

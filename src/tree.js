@@ -17,11 +17,12 @@ Tree.prototype._arrayOfEnvelopes = function (child) {
 
     return array;
   } else {
-    return child;
+    return utils.envelope(child.leaf);
   }
 };
 
 Tree.prototype.envelope = function () {
-  return utils.envelopeFromEnvelopes(this._arrayOfEnvelopes(this));
+  return utils.envelopeFromEnvelopes(this._arrayOfEnvelopes(this.children));
 };
+
 module.exports = exports = Tree;
