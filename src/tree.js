@@ -53,6 +53,15 @@ Tree.prototype.add = function (leaf) {
       this.children.push(leaf);
     } else {
       // otherwise we need to figure out where to put it
+      var which,
+          envelope = leaf.envelope();
+      for (var i = 0; i < this.children.length; i++) {
+        if (utils.envelopeWithinEnvelope(envelope, this.children[i].envelope())) {
+          // a child already has an envelope to add to
+          this.children[i].add(leaf);
+          return;
+        }
+      }
     }
   }
 };
