@@ -235,6 +235,8 @@ vows.describe('Tree').addBatch({
           assert.isNull(topic.leaf);
           assert.equal(topic.children.length, 3);
           assert.equal(topic.children[2].children.length, 2);
+          assert.equal(topic.children[2].children[0].envelope().x, 100);
+          assert.equal(topic.children[2].children[1].envelope().x, 105);
           //assert.equal(topic.depth(), 3);
         }
       }

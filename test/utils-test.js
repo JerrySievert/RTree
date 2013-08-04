@@ -121,5 +121,21 @@ vows.describe('Utils').addBatch({
     'the correct depth should be calculated': function (topic) {
       assert.equal(utils.array_depth(topic), 3);
     }
+  },
+  'When given a count and a width with of 10 and 3, depthForCount': {
+    topic: function () {
+      return utils.depthForCount(10, 3);
+    },
+    'the depth should be calculated correctly': function (topic) {
+      assert.equal(topic, 2);
+    }
+  },
+  'When given a count and a width with of 30 and 3, depthForCount': {
+    topic: function () {
+      return utils.depthForCount(30, 3);
+    },
+    'the depth should be calculated correctly': function (topic) {
+      assert.equal(topic, 3);
+    }
   }
 }).export(module);
