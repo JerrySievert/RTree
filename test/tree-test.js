@@ -5,20 +5,9 @@ var vows   = require('vows'),
 vows.describe('Tree').addBatch({
   'When a Tree is created': {
     topic: function () {
-      var child1 = new Tree({
-        "type": "Polygon",
-        "coordinates": [
-          [
-            [ 1, 1 ],
-            [ 1, 5 ],
-            [ 5, 5 ],
-            [ 5, 1 ],
-            [ 1, 1 ]
-          ]
-        ]
-      });
+      var tree = new Tree();
 
-      var child2 = new Tree({
+      tree.add({
         "type": "Polygon",
         "coordinates": [
           [
@@ -31,7 +20,18 @@ vows.describe('Tree').addBatch({
         ]
       });
 
-      var tree = new Tree(null, [ child1, child2 ]);
+      tree.add({
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [ 1, 1 ],
+            [ 1, 5 ],
+            [ 5, 5 ],
+            [ 5, 1 ],
+            [ 1, 1 ]
+          ]
+        ]
+      });
 
       return tree;
     },
@@ -44,9 +44,11 @@ vows.describe('Tree').addBatch({
       assert.equal(envelope.h, 14);
     }
   },
-  'When a Tree is created that also has a leaf': {
+  'When a Tree is created and a leaf and 2 children are added': {
     topic: function () {
-      var child1 = new Tree({
+      var tree = new Tree();
+
+      var child1 = {
         "type": "Polygon",
         "coordinates": [
           [
@@ -57,9 +59,9 @@ vows.describe('Tree').addBatch({
             [ 1, 1 ]
           ]
         ]
-      });
+      };
 
-      var child2 = new Tree({
+      var child2 = {
         "type": "Polygon",
         "coordinates": [
           [
@@ -70,7 +72,7 @@ vows.describe('Tree').addBatch({
             [ 10, 10 ]
           ]
         ]
-      });
+      };
 
       var leaf = {
         "type": "Polygon",
@@ -85,7 +87,9 @@ vows.describe('Tree').addBatch({
         ]
       };
 
-      var tree = new Tree(leaf, [ child1, child2 ]);
+      tree.add(leaf);
+      tree.add(child1);
+      tree.add(child2);
 
       return tree;
     },
@@ -104,7 +108,7 @@ vows.describe('Tree').addBatch({
       assert.equal(topic.children[0].depth(), 1);
       assert.equal(topic.children[1].depth(), 1);
     }
-  },
+  },/*
   'When a tree is created with a leaf': {
     'and a child added to it': {
       topic: function () {
@@ -241,5 +245,5 @@ vows.describe('Tree').addBatch({
         }
       }
     }
-  }
+  }*/
 }).export(module);
