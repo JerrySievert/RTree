@@ -4,6 +4,12 @@ function Tree (optionalOptions) {
   this.children = [ ];
   this.options  = optionalOptions || { };
   this.maxWidth = this.options.maxWidth || 3;
+
+  if (this.options.greedy === undefined) {
+    this.greedy = true;
+  } else {
+    this.greedy = this.options.greedy;
+  }
 }
 
 Tree.prototype._arrayOfEnvelopes = function (child) {
