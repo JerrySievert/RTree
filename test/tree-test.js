@@ -1,6 +1,7 @@
 var vows   = require('vows'),
     assert = require('assert'),
-    Tree   = require('../src/Tree');
+    Tree   = require('../src/tree'),
+    utils  = require('../src/utils');
 
 vows.describe('Tree').addBatch({
   'When a Tree is created': {
@@ -126,7 +127,7 @@ vows.describe('Tree').addBatch({
         };
 
         var tree = new Tree();
-        tree.leaf = leaf;
+        tree.leaf = utils.envelope(leaf);
 
         return tree;
       },
@@ -136,7 +137,7 @@ vows.describe('Tree').addBatch({
       'and an additional child is added as geojson': {
         topic: function (topic) {
           var child = {
-            "type": "polygon",
+            "type": "Polygon",
             "coordinates": [
               [
                 [ 1, 1 ],
@@ -185,7 +186,7 @@ vows.describe('Tree').addBatch({
         };
 
         var tree = new Tree();
-        tree.leaf = leaf;
+        tree.leaf = utils.envelope(leaf);
 
         var child1 = {
           "type": "Polygon",
@@ -244,6 +245,34 @@ vows.describe('Tree').addBatch({
           assert.equal(topic.children[1].envelope().x, 1);
         }
       }
+    }
+  },
+  'When adding a bunch of envelopes to a tree': {
+    topic: function () {
+      var envelopes = [
+        { x: 0, y: 0, w: 5, h: 5 },
+        { x: 1, y: 1, w: 2, h: 2 },
+        { x: 5, y: 5, w: 2, h: 2 },
+        { x: 10, y: 10, w: 10, h: 10 },
+        { x: 10, y: 11, w: 5, h: 5 }
+      ];
+
+      var tree = new Tree();
+
+      for (var i = 0; i < envelopes.length; i++) {
+        tree.add(envelopes[i], i);
+      }
+
+      return tree;
+    },
+    'you should be able to get the correct ids back from a search': function (topic) {
+      var results = topic.search({ x: 11, y: 12, w: 1, h: 1 });
+
+      assert.equal(results.length, 2);
+      results = results.sort();
+
+      assert.equal(results[0], 3);
+      assert.equal(results[1], 4);
     }
   }
 }).export(module);

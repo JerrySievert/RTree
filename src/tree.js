@@ -16,7 +16,7 @@ Tree.prototype._arrayOfEnvelopes = function (child) {
   var array = [ ];
 
   if (child.leaf) {
-    array.push(utils.envelope(child.leaf));
+    array.push(child.leaf);
   }
 
   if (Array.isArray(child)) {
@@ -62,6 +62,12 @@ Tree.prototype.add = function (leaf, id) {
   // if geojson, create a real leaf
   if (leaf instanceof Tree === false) {
     var data = leaf;
+
+    // geojson? convert to an envelope
+    if (data.type) {
+      data = utils.envelope(data);
+    } 
+
     leaf = new Tree(this.options);
     leaf.leaf = data;
   }
@@ -82,18 +88,57 @@ Tree.prototype.add = function (leaf, id) {
     } else {
       // otherwise we need to figure out where to put it
       var which,
+          least,
+          i,
           envelope = leaf.envelope();
-      for (var i = 0; i < this.children.length; i++) {
+      for (i = 0; i < this.children.length; i++) {
         if (utils.envelopeWithinEnvelope(envelope, this.children[i].envelope())) {
           // a child already has an envelope to add to
-          this.children[i].add(leaf);
+          this.children[i].add(leaf, id);
           return;
         }
       }
+
+      // otherwise attempt to find which child is the least full, and add it there
+      for (i = 0; i < this.children.length; i++) {
+        if (which === undefined) {
+          which = i;
+          least = this.children[i].depth();
+        } else {
+          if (this.children[i].depth() < least) {
+            least = this.children[i].depth();
+            which = i;
+          }
+        }
+      }
+
+      this.children[which].add(leaf, id);
     }
   }
 };
 
+Tree.prototype.search = function (envelope) {
+  // if there is no possibility of the tree containing the envelope, just return
+  if (utils.envelopeWithinEnvelope(envelope, this.envelope()) === false) {
+    return [ ];
+  }
 
+  var results = [ ];
+
+  if (this.leaf) {
+    if (utils.envelopeWithinEnvelope(envelope, this.leaf)) {
+      results.push(this.id);
+    }
+  }
+
+  for (var i = 0; i < this.children.length; i++) {
+    var res = this.children[i].search(envelope);
+    if (res.length) {
+      results = results.concat(res);
+    }
+  }
+
+  return results;
+};
 
 module.exports = exports = Tree;
