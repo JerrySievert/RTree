@@ -108,8 +108,8 @@ vows.describe('Tree').addBatch({
       assert.equal(topic.children[0].depth(), 1);
       assert.equal(topic.children[1].depth(), 1);
     }
-  },/*
-  'When a tree is created with a leaf': {
+  },
+  'When a tree is created': {
     'and a child added to it': {
       topic: function () {
         var leaf = {
@@ -125,11 +125,12 @@ vows.describe('Tree').addBatch({
           ]
         };
 
-        var tree = new Tree(leaf);
+        var tree = new Tree();
+        tree.leaf = leaf;
 
         return tree;
       },
-      'it should have a depth of 1': function (topic) {
+      'it should have a depth of 2': function (topic) {
         assert.equal(topic.depth(), 1);
       },
       'and an additional child is added as geojson': {
@@ -183,7 +184,8 @@ vows.describe('Tree').addBatch({
           ]
         };
 
-        var tree = new Tree(leaf);
+        var tree = new Tree();
+        tree.leaf = leaf;
 
         var child1 = {
           "type": "Polygon",
@@ -238,12 +240,10 @@ vows.describe('Tree').addBatch({
         'the child is added to the correct node': function (topic) {
           assert.isNull(topic.leaf);
           assert.equal(topic.children.length, 3);
-          assert.equal(topic.children[2].children.length, 2);
-          assert.equal(topic.children[2].children[0].envelope().x, 100);
-          assert.equal(topic.children[2].children[1].envelope().x, 105);
-          //assert.equal(topic.depth(), 3);
+          assert.equal(topic.children[0].envelope().x, 105);
+          assert.equal(topic.children[1].envelope().x, 1);
         }
       }
     }
-  }*/
+  }
 }).export(module);
