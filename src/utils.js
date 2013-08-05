@@ -53,7 +53,19 @@ function array_depth(array) {
   return max_depth;
 }
 
+function depthForCount (count, width) {
+  var depth = 0;
+
+  while ((count = (count / width)) > width) {
+    depth++;
+  }
+
+  return depth + 1;
+}
+
+
 exports.envelope = envelope;
 exports.envelopeWithinEnvelope = envelopeWithinEnvelope;
 exports.envelopeFromEnvelopes = envelopeFromEnvelopes;
 exports.array_depth = array_depth;
+exports.depthForCount = depthForCount;
