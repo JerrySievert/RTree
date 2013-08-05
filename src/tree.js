@@ -58,7 +58,7 @@ Tree.prototype.depth = function (children) {
 };
 
 
-Tree.prototype.add = function (leaf, id) {
+Tree.prototype.insert = function (leaf, id) {
   // if geojson, create a real leaf
   if (leaf instanceof Tree === false) {
     var data = leaf;
@@ -94,7 +94,7 @@ Tree.prototype.add = function (leaf, id) {
       for (i = 0; i < this.children.length; i++) {
         if (utils.envelopeWithinEnvelope(envelope, this.children[i].envelope())) {
           // a child already has an envelope to add to
-          this.children[i].add(leaf, id);
+          this.children[i].insert(leaf, id);
           return;
         }
       }
@@ -112,7 +112,7 @@ Tree.prototype.add = function (leaf, id) {
         }
       }
 
-      this.children[which].add(leaf, id);
+      this.children[which].insert(leaf, id);
     }
   }
 };

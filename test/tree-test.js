@@ -8,7 +8,7 @@ vows.describe('Tree').addBatch({
     topic: function () {
       var tree = new Tree();
 
-      tree.add({
+      tree.insert({
         "type": "Polygon",
         "coordinates": [
           [
@@ -21,7 +21,7 @@ vows.describe('Tree').addBatch({
         ]
       });
 
-      tree.add({
+      tree.insert({
         "type": "Polygon",
         "coordinates": [
           [
@@ -45,7 +45,7 @@ vows.describe('Tree').addBatch({
       assert.equal(envelope.h, 14);
     }
   },
-  'When a Tree is created and a leaf and 2 children are added': {
+  'When a Tree is created and a leaf and 2 children are inserted': {
     topic: function () {
       var tree = new Tree();
 
@@ -88,9 +88,9 @@ vows.describe('Tree').addBatch({
         ]
       };
 
-      tree.add(leaf);
-      tree.add(child1);
-      tree.add(child2);
+      tree.insert(leaf);
+      tree.insert(child1);
+      tree.insert(child2);
 
       return tree;
     },
@@ -111,7 +111,7 @@ vows.describe('Tree').addBatch({
     }
   },
   'When a tree is created': {
-    'and a child added to it': {
+    'and a child inserted to it': {
       topic: function () {
         var leaf = {
           "type": "Polygon",
@@ -134,7 +134,7 @@ vows.describe('Tree').addBatch({
       'it should have a depth of 2': function (topic) {
         assert.equal(topic.depth(), 1);
       },
-      'and an additional child is added as geojson': {
+      'and an insertitional child is inserted as geojson': {
         topic: function (topic) {
           var child = {
             "type": "Polygon",
@@ -149,7 +149,7 @@ vows.describe('Tree').addBatch({
             ]
           };
 
-          topic.add(child);
+          topic.insert(child);
 
           return topic;
         },
@@ -170,7 +170,7 @@ vows.describe('Tree').addBatch({
     }
   },
   'When another tree is created with a leaf': {
-    'and maximum children are added to it': {
+    'and maximum children are inserted to it': {
       topic: function () {
         var leaf = {
           "type": "Polygon",
@@ -214,12 +214,12 @@ vows.describe('Tree').addBatch({
           ]
         };
 
-        tree.add(child1);
-        tree.add(child2);
+        tree.insert(child1);
+        tree.insert(child2);
 
         return tree;
       },
-      'and another child is added': {
+      'and another child is inserted': {
         topic: function (topic) {
           var child = {
             "type": "Polygon",
@@ -234,11 +234,11 @@ vows.describe('Tree').addBatch({
             ]
           };
 
-          topic.add(child);
+          topic.insert(child);
 
           return topic;
         },
-        'the child is added to the correct node': function (topic) {
+        'the child is inserted to the correct node': function (topic) {
           assert.isNull(topic.leaf);
           assert.equal(topic.children.length, 3);
           assert.equal(topic.children[0].envelope().x, 105);
@@ -247,7 +247,7 @@ vows.describe('Tree').addBatch({
       }
     }
   },
-  'When adding a bunch of envelopes to a tree': {
+  'When inserting a bunch of envelopes to a tree': {
     topic: function () {
       var envelopes = [
         { x: 0, y: 0, w: 5, h: 5 },
@@ -260,7 +260,7 @@ vows.describe('Tree').addBatch({
       var tree = new Tree();
 
       for (var i = 0; i < envelopes.length; i++) {
-        tree.add(envelopes[i], i);
+        tree.insert(envelopes[i], i);
       }
 
       return tree;
