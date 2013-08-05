@@ -10,6 +10,7 @@ function Tree (optionalOptions) {
   } else {
     this.greedy = this.options.greedy;
   }
+  this._store = [ ];
 }
 
 Tree.prototype._arrayOfEnvelopes = function (child) {
@@ -139,6 +140,19 @@ Tree.prototype.search = function (envelope) {
   }
 
   return results;
+};
+
+Tree.prototype.load = function (data) {
+  data = data.sort(function (a, b) { if (a.x + a.w < b.x + b.w) { return -1; } else if (a.x + a.w === b.x + b.w) { return 0; } else { return 1; } });
+
+  var depth = utils.depthForCount(data.length, this.maxWidth);
+
+  this.children = [ ];
+  this.leaf = null;
+
+  for (var i = 0; i < data.length; i++) {
+    this.insert(data[i], data[i].id);
+  }
 };
 
 module.exports = exports = Tree;

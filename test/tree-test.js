@@ -274,5 +274,32 @@ vows.describe('Tree').addBatch({
       assert.equal(results[0], 3);
       assert.equal(results[1], 4);
     }
+  },
+  'When inserting a bunch of envelopes to a tree with load': {
+    topic: function () {
+      var envelopes = [
+        { x: 0, y: 0, w: 5, h: 5, id: 0 },
+        { x: 1, y: 1, w: 2, h: 2, id: 1 },
+        { x: 5, y: 5, w: 2, h: 2, id: 2 },
+        { x: 10, y: 10, w: 10, h: 10, id: 3 },
+        { x: 10, y: 11, w: 5, h: 5, id: 4 }
+      ];
+
+      var tree = new Tree();
+
+      tree.load(envelopes);
+      
+      return tree;
+    },
+    'you should be able to get the correct ids back from a search': function (topic) {
+      var results = topic.search({ x: 11, y: 12, w: 1, h: 1 });
+
+      assert.equal(results.length, 2);
+      results = results.sort();
+
+      assert.equal(results[0], 3);
+      assert.equal(results[1], 4);
+    }
   }
+
 }).export(module);
